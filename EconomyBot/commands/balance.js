@@ -1,4 +1,5 @@
 const { Modal, TextInputComponent, MessageEmbed, MessageButton, MessageSelectMenu, MessageActionRow } = require('discord.js');
+const timestamp = require('discord-timestamp');
 
 // Database - Moonlifedb
 const { Database, LocalStorage, JSONFormatter, Snowflake } = require('moonlifedb');
@@ -20,37 +21,54 @@ RU: Отображение текущего баланса у пользоват
 module.exports.run = async(client, interaction) => {
 
     try {
-        
+        const userData = db.read('account', { key: `${interaction.user.id}` });
+        if (!db.check('account', { key: `${interaction.user.id}` })) { // Если пользователя нет в БазеДанных
+            db.edit('account', { key: `${interaction.user.id}`, value: {
+                'userCash': 0,
+                'userBank': 0,
+                'createdAt': timestamp(Date.now())
+            }, newline: true });
+        }
+        const lang = db.read('lang', { key: `${(interaction.locale == 'ru') ? ('ru') : ('en')}` });
+        const targetMember = (interaction.options.getUser('member')) ?? (interaction.user);
+
+        const cash = new Intl.NumberFormat("de").format(parseInt(userData.userCash));
+        const bank = new Intl.NumberFormat("de").format(parseInt(userData.userBank));
+        const total = new Intl.NumberFormat("de").format(cash + bank);
+
         const embed = new MessageEmbed()
-        embed.setTitle(``)
+        embed.setTitle(`${lang.balance.title} - ${targetMember.username}`)
         embed.addFields([
-            { name: ``, value: `` },
-            { name: ``, value: `` },
-            { name: ``, value: `` },
+            { name: `${lang.balance.bank}:`, value: '**`🪙\| ' + ' '.repeat(((9 - String(bank).length) >= 0) ? (9 - String(bank).length) : (0)) + String(bank) + ' Đ`**', inline: true }, // Bank | Банк
+            { name: `${lang.balance.cash}:`, value: '**`🪙\| ' + ' '.repeat(((9 - String(cash).length) >= 0) ? (9 - String(cash).length) : (0)) + String(cash) + ' Đ`**', inline: true }, // Cash | Наличные
+            { name: `${lang.balance.total}:`, value: '**`🪙\| ' + ' '.repeat(((26 - String(total).length) >= 0) ? (26 - String(total).length) : (0)) + String(total) + ' Đ`**', inline: false }, // Total | Всего
         ])
-        embed.setFooter({ text: ``, iconURL: `` });
-        embed.setColor(``)
+        embed.setFooter({ text: `User ID: ${targetMember.id}` });
+        embed.setColor(`79b7ff`)
 
         const button = new MessageActionRow()
         if (interaction.user.id != targetMember.id) { // Если просмотр чужого профиля
             button.addComponents( // Перевод
                 new MessageButton()
                     .setStyle(`SECONDARY`)
-                    .setLabel(``)
-                    .setEmoji(``)
+                    .setCustomId(`pay_${targetMember.id}`)
+                    .setLabel(`${lang.balance.payCash}`)
+                    .setEmoji(`⤵️`)
             )
         } else { // Если просмотр своего профиля
             button.addComponents( // Снятие денег со счёта
                 new MessageButton()
                     .setStyle(`SECONDARY`)
-                    .setLabel(``)
-                    .setEmoji(``)
+                    .setCustomId(`withdraw`)
+                    .setLabel(`${lang.balance.withdrawCash}`)
+                    .setEmoji(`⬆️`)
                     
             ).addComponents( // Пополнение счёта
                 new MessageButton()
                     .setStyle(`SECONDARY`)
-                    .setLabel(``)
-                    .setEmoji(``)
+                    .setCustomId(`deposit`)
+                    .setLabel(`${lang.balance.depositCash}`)
+                    .setEmoji(`⬇️`)
             )
         }
 
