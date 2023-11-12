@@ -1,6 +1,6 @@
 # Discord-bots
 
-## EconomyBot:
+## [EconomyBot](https://github.com/Barkosss/Discord-bots/tree/main/EconomyBot):
 ### Информация:
 > Экономический бот предоставляет гибкую настройку экономики на сервере, позволяя создать уникальный функционал.
 
