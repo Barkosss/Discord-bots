@@ -86,6 +86,15 @@
             "field1": "Bank",
             "field2": "Cash",
             "footer": "ID Transaction"
+        },
+        "give": {
+            "title": "Give",
+            "field1": "Cash",
+            "foeld2": "Recipient",
+            "error": {
+                "giveMeToMe": "You can't transfer money to yourself",
+                "amountMoreUserCash": "Insufficient funds to transfer"
+            }
         }
     }
 }
