@@ -22,26 +22,25 @@ module.exports.run = async (client, interaction) => {
         const lang = db.read('lang', { key: `${(interaction.locale == 'ru') ? ('ru') : ('en')}` });
 
         if (interaction.isModalSubmit()) {
-            const amount = interaction.fields.getTextInputValue('amount');
+            const amount = parseInt(interaction.fields.getTextInputValue('amount'));
             var eventCode = snowflake.generate(); // Генератор номера операции
             db.edit('account', { key: `${interaction.user.id}.userBank`, value: userData.userBank - amount});
             db.edit('account', { key: `${interaction.user.id}.userCash`, value: userData.userCash + amount });
             db.edit('account', { key: `${interaction.user.id}.history.${eventCode}`, value: {
                 "action": "withdraw",
                 "timestamp": timestamp(Date.now()),
-                "amount": amount
+                "amount": amount,
+                "eventCode": eventCode
             }, newline: true })
-            let bank = db.read('account', { key: `${interaction.user.id}.userBank` });
-            let cash = db.read('account', { key: `${interaction.user.id}.userCash` });
-            cash = new Intl.NumberFormat("de").format(cash);
-            bank = new Intl.NumberFormat("de").format(bank);
+            let cash = new Intl.NumberFormat("de").format(db.read('account', { key: `${interaction.user.id}.userCash` }));
+            let oldUserBank = new Intl.NumberFormat("de").format(db.read('account', { key: `${interaction.user.id}.userBank` }) + amount);
+            let bank = new Intl.NumberFormat("de").format(db.read('account', { key: `${interaction.user.id}.userBank` }));
             
             const embed = new MessageEmbed()
-            embed.setTitle(`${lang.withdraw.title}`)
+            embed.setTitle(`${lang.withdraw.title}: -${amount}`)
             embed.addFields([
-                { name: `${lang.withdraw}`, value: `` },
-                { name: `${lang.withdraw}`, value: `` },
-                { name: `${lang.withdraw}`, value: `` }
+                { name: `${lang.withdraw.field1}`, value: `> ~~\`${oldUserBank}\`~~ **\`->\`** \`${bank}\`` },
+                { name: `${lang.withdraw.field2}`, value: `> \`${cash}\`` },
             ])
             embed.setFooter({ text: `${lang.withdraw.footer}: ${eventCode}` })
             embed.setColor(`79b7ff`)
@@ -52,12 +51,13 @@ module.exports.run = async (client, interaction) => {
 
         const modal = new Modal()
             .setCustomId(`withdraw`)
-            .setTitle(`${lang.withdraw.title}`)
+            .setTitle(`${lang.withdraw.modal.title}`)
 
         const amount = new TextInputComponent()
             .setCustomId(`amount`)
-            .setLabel(`${lang.withdraw.label}`)
-            .setPlaceholder(`${lang.withdraw.placeholder} - ${userData.userBank}`)
+            .setStyle('SHORT')
+            .setLabel(`${lang.withdraw.modal.label}`)
+            .setPlaceholder(`${lang.withdraw.modal.placeholder} - ${userData.userBank}`)
             .setRequired(true)
 
         const amountRow = new MessageActionRow().addComponents(amount);
