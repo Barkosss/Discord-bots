@@ -21,7 +21,6 @@ RU: Отображение текущего баланса у пользоват
 module.exports.run = async(client, interaction) => {
 
     try {
-        const userData = db.read('account', { key: `${interaction.user.id}` });
         if (!db.check('account', { key: `${interaction.user.id}` })) { // Если пользователя нет в БазеДанных
             db.edit('account', { key: `${interaction.user.id}`, value: {
                 'userCash': 0,
@@ -29,6 +28,7 @@ module.exports.run = async(client, interaction) => {
                 'createdAt': timestamp(Date.now())
             }, newline: true });
         }
+        const userData = db.read('account', { key: `${interaction.user.id}` });
         const lang = db.read('lang', { key: `${(interaction.locale == 'ru') ? ('ru') : ('en')}` });
         const targetMember = (interaction.options.getUser('member')) ?? (interaction.user);
 
@@ -62,6 +62,7 @@ module.exports.run = async(client, interaction) => {
                     .setCustomId(`withdraw`)
                     .setLabel(`${lang.balance.withdrawCash}`)
                     .setEmoji(`⬆️`)
+                    .setDisabled((userData.userBank <= 0) ? (true) : (false))
                     
             ).addComponents( // Пополнение счёта
                 new MessageButton()
@@ -69,6 +70,7 @@ module.exports.run = async(client, interaction) => {
                     .setCustomId(`deposit`)
                     .setLabel(`${lang.balance.depositCash}`)
                     .setEmoji(`⬇️`)
+                    .setDisabled((userData.userCash <= 0) ? (true) : (false))
             )
         }
 

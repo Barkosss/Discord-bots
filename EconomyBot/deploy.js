@@ -8,7 +8,11 @@ const commands = [
     new SlashCommandBuilder()
         .setName('balance')
         .setDMPermission(false)
-        .setDescription('View your balance and other user\'s balance'),
+        .setDescription('View your balance and other user\'s balance')
+        .addUserOption(options =>
+            options
+                .setName('member')
+                .setDescription('Specify the user')),
 
     new SlashCommandBuilder()
         .setName('deposit')
