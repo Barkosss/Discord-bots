@@ -48,23 +48,32 @@ client.on('interactionCreate', async(interaction) => {
     try {
         if (!isConnected) return;
         var command = client.commands.get(interaction.commandName);
-        // Use Button
+
         if (interaction.isButton()) {
-            command = client.command.get(interaction.customId.split('_')[0]);
-            return command.run(client, interaction, interaction.customId);
+            command = client.commands.get(interaction.customId.split('_')[0])
+            return command.run(client, interaction, interaction.customId)
         }
-
-        // Use Select Menu
         else if (interaction.isSelectMenu()) {
-            command = client.command.get(interaction.customId.split('_')[0]);
-            return command.run(client, interaction, interaction.customId);
+            command = client.commands.get(interaction.customId.split('_')[0])
+            return command.run(client, interaction, interaction.customId)
+        }
+        else if (interaction.isModalSubmit()) {
+            command = client.commands.get(interaction.customId.split('_')[0])
+            return command.run(client, interaction, interaction.customId)
+        }
+        try {
+            if (interaction.guild) command.run(client, interaction)
+            else return;
+        } catch (error) {
+            interaction.reply(
+                {
+                    content: 'Something went wrong',
+                    ephemeral: true
+                }
+            )
+            console.log(error);
         }
 
-        // Use Modal Submit
-        else if (interaction.isModalSubmit()) {
-            command = client.command.get(interaction.customId.split('_')[0]);
-            return command.run(client, interaction, interaction.customId);
-        }
         
     } catch(error) {
         console.log(error);
