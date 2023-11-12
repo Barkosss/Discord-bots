@@ -23,6 +23,11 @@ module.exports.run = async (client, interaction) => {
 
         if (interaction.isModalSubmit()) {
             const amount = parseInt(interaction.fields.getTextInputValue('amount'));
+            
+            // Если кол-во денег у пользователя меньше, чем он пытается снять со счёта
+            if (amount <= 0 || amount > userData.userBank)
+                return await interaction.reply({ content: lang.withdraw.error.amountMoreUserBank, ephemeral: true });
+            
             var eventCode = snowflake.generate(); // Генератор номера операции
             db.edit('account', { key: `${interaction.user.id}.userBank`, value: userData.userBank - amount});
             db.edit('account', { key: `${interaction.user.id}.userCash`, value: userData.userCash + amount });
@@ -33,7 +38,7 @@ module.exports.run = async (client, interaction) => {
                 "eventCode": eventCode
             }, newline: true })
             let cash = new Intl.NumberFormat("de").format(db.read('account', { key: `${interaction.user.id}.userCash` }));
-            let oldUserBank = new Intl.NumberFormat("de").format(db.read('account', { key: `${interaction.user.id}.userBank` }) + amount);
+            let oldUserBank = new Intl.NumberFormat("de").format(userData.userBank);
             let bank = new Intl.NumberFormat("de").format(db.read('account', { key: `${interaction.user.id}.userBank` }));
             
             const embed = new MessageEmbed()
