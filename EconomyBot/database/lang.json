@@ -47,10 +47,11 @@
             }
         },
         "pay": {
-            "title": "",
-            "field1": "",
-            "field2": "",
+            "title": "Перевод",
+            "field1": "Банковсйи счёт",
+            "field2": "Получатель",
             "error": {
+                "payMeToMe": "Вы не можете перевести самому себе",
                 "amountMoreUserBank": "Недостаточно средст для перевода"
             }
         }
@@ -95,6 +96,15 @@
                 "giveMeToMe": "You can't transfer money to yourself",
                 "amountMoreUserCash": "Insufficient funds to transfer"
             }
-        }
+        },
+        "pay": {
+            "title": "Перевод",
+            "field1": "Банковсйи счёт",
+            "field2": "Получатель",
+            "error": {
+                "payMeToMe": "Вы не можете перевести самому себе",
+                "amountMoreUserBank": "Недостаточно средст для перевода"
+            }
+        }   
     }
 }

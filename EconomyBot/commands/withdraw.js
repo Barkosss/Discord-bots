@@ -37,9 +37,10 @@ module.exports.run = async (client, interaction) => {
                 "amount": amount,
                 "eventCode": eventCode
             }, newline: true })
-            let cash = new Intl.NumberFormat("de").format(db.read('account', { key: `${interaction.user.id}.userCash` }));
+
+            let cash = new Intl.NumberFormat("de").format(userData.userCash);
             let oldUserBank = new Intl.NumberFormat("de").format(userData.userBank);
-            let bank = new Intl.NumberFormat("de").format(db.read('account', { key: `${interaction.user.id}.userBank` }));
+            let bank = new Intl.NumberFormat("de").format(userData.userBank - amount);
             
             const embed = new MessageEmbed()
             embed.setTitle(`${lang.withdraw.title}: -${amount}`)
