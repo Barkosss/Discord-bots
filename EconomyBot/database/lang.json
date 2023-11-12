@@ -1,0 +1,68 @@
+{
+    "ru": {
+        "balance": {
+            "title": "Баланс",
+            "bank": "Банковский Счёт",
+            "cash": "Наличные",
+            "total": "Всего",
+            "payCash": "Перевести",
+            "withdrawCash": "Снять",
+            "depositCash": "Пополнить"
+        },
+        "withdraw": {
+            "modal": {
+                "title": "Снятие",
+                "label": "Сумма",
+                "placeholder": "Максимальная сумма снятия"
+            },
+            "title": "Снятие",
+            "field1": "Банковский счёт",
+            "field2": "Наличные",
+            "footer": "ID Операции"
+        },
+        "deposit": {
+            "modal": {
+                "title": "Пополнение",
+                "label": "Сумма",
+                "placeholder": "Максимальная сумма пополнения"
+            },
+            "title": "Пополнение",
+            "field1": "Банковский счёт",
+            "field2": "Наличные",
+            "footer": "ID Операции"
+        }
+    },
+    "en": {
+        "balance": {
+            "title": "Balance",
+            "bank": "Bank",
+            "cash": "Cash",
+            "total": "Total",
+            "payCash": "Pay",
+            "withdrawCash": "Withdraw",
+            "depositCash": "Deposit"
+        },
+        "withdraw": {
+            "modal": {
+                "title": "Withdraw",
+                "label": "Amount",
+                "placeholder": "Maximum withdrawal amount"
+            },
+            "title": "Withdraw",
+            "field1": "Bank",
+            "field2": "Cash",
+            "footer": "ID Transaction"
+        },
+        "deposit": {
+            "modal": {
+                "title": "Deposit",
+                "label": "Amount",
+                "placeholder": "Maximum replenishment amount"
+            },
+            "title": "Deposit",
+            "field1": "Bank",
+            "field2": "Cash",
+            "footer": "ID Transaction"
+        }
+    }
+}
