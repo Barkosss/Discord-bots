@@ -20,7 +20,6 @@ const fs = require('fs');
 
 // Database - Moonlifedb
 const { Database, LocalStorage, JSONFormatter, Showflake } = require('moonlifedb');
-const { isModuleNamespaceObject } = require('util/types');
 const db = new Database(new LocalStorage({ path: 'database'}), { useTabulation: new JSONFormatter({ whitespace: "\t "}) });
 // Database - Moonlidedb
 
@@ -32,9 +31,11 @@ client.login(config.token);
 client.on('ready', async() => {
     try{
         if (commands.length == 0) console.log('Commands not found');
-        const commandName = file.split('.')[0];
-        const command = require(`./commands/${commandName}`);
-        client.commands.set(commandName, command);
+        for(let file of commands) {
+            const commandName = file.split('.')[0];
+            const command = require(`./commands/${commandName}`);
+            client.commands.set(commandName, command);
+        }
         isConnected = true;
         console.log(`${client.user.username} is ready!`)
 

@@ -7158,3 +7158,8 @@ EconomyBot/node_modules/ws/README.md
 EconomyBot/node_modules/ws/wrapper.mjs
 EconomyBot/package-lock.json
 EconomyBot/package.json
+EconomyBot/node_modules/.package-lock.json
+EconomyBot/node_modules/discord-timestamp/.upm/store.json
+EconomyBot/node_modules/discord-timestamp/index.js
+EconomyBot/node_modules/discord-timestamp/package.json
+EconomyBot/node_modules/discord-timestamp/README.md
