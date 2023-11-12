@@ -23,7 +23,15 @@ const commands = [
     new SlashCommandBuilder()
         .setName('give')
         .setDMPermission(false)
-        .setDescription('Give money to another user'),
+        .setDescription('Give money to another user')
+        .addUserOption(options => 
+            options
+                .setName('member')
+                .setDescription('Specify the recipient'))
+        .addNumberOption(options =>
+            options
+                .setName('amount')
+                .setDescription('Specify the amount')),
 
     new SlashCommandBuilder()
         .setName('pay')
