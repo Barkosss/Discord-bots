@@ -59,37 +59,41 @@ module.exports.run = async (client, interaction) => {
             }
             return;
         }
-        var addFieldsEmbed = []; let count = 0;
-        for(let event of userData.history) {
-            if (count >= 25) break;
-            let operation = lang.history.operation[event.action];
-            let createdOper = event.timestamp;
-            let content = lang.history.action + ': ' + operation + '\n';
-            switch(operation) {
-                case 'pay': { // Если операция - Перевод
-                    content += lang.history.amount + ': ' + event.amount + '\n' + lang.history.sender + ': ' + event.sender + '\n' + lang.history.receiver + ': ' + event.receiver;
-                    break;
-                }
-
-                case 'deposit': { // Если операция - Пополнение
-                    content += lang.history.amount + ': ' + event.amount;
-                    break;
-                }
-
-                case 'withdraw': { // Если операция - Снятие
-                    content += lang.history.amount + ': ' + event.amount;
-                    break;
-                }
-            }
-            addFieldsEmbed.push({ name: '<t:' + createdOper + ':t> (<t:' + createdOper + ':R>)', value: content });
-            count++;
-        }
-
+        console.log(userData);
         const embed = new MessageEmbed()
         embed.setTitle(lang.history.title)
-        if (!historyData.size) embed.setDescription(lang.history.empty)
-        else embed.addFields(addFieldsEmbed)
-        embed.setFooter({ text: lang.history.footer + ': 0/' + Math.ceil(historyData.size / 25) })
+        if (Object.keys(userData.history).size) { // Если история операций не пуста
+            var addFieldsEmbed = []; let count = 0;
+            for (let event of userData.history) {
+                if (count >= 25) break;
+                let operation = lang.history.operation[event.action];
+                let createdOper = event.timestamp;
+                let content = lang.history.action + ': ' + operation + '\n';
+                switch (operation) {
+                    case 'pay': { // Если операция - Перевод
+                        content += lang.history.amount + ': ' + event.amount + '\n' + lang.history.sender + ': ' + event.sender + '\n' + lang.history.receiver + ': ' + event.receiver;
+                        break;
+                    }
+
+                    case 'deposit': { // Если операция - Пополнение
+                        content += lang.history.amount + ': ' + event.amount;
+                        break;
+                    }
+
+                    case 'withdraw': { // Если операция - Снятие
+                        content += lang.history.amount + ': ' + event.amount;
+                        break;
+                    }
+                }
+                addFieldsEmbed.push({ name: '<t:' + createdOper + ':t> (<t:' + createdOper + ':R>)', value: content });
+                count++;
+            }
+            embed.addFields(addFieldsEmbed)
+
+        } else { // Если история операций пустая
+            embed.setDescription(lang.history.empty)
+        }
+        embed.setFooter({ text: lang.history.footer + ': 0/' + Math.ceil(userData.history.size / 25) })
         embed.setColor(`79b7ff`)
 
 
@@ -105,15 +109,15 @@ module.exports.run = async (client, interaction) => {
                 new MessageButton()
                     .setStyle(`SECONDARY`)
                     .setCustomId(`history_enterPage`)
-                    .setLabel('0/' + Math.ceil(historyData.size / 25))
-                    .setDisabled((historyData.size <= 25) ? (true) : (false))
+                    .setLabel('0/' + Math.ceil(userData.history.size / 25))
+                    .setDisabled((userData.history.size <= 25) ? (true) : (false))
             )
             .addComponents( // Следующая страница
                 new MessageButton()
                     .setStyle(`SECONDARY`)
                     .setCustomId(`history_nextPage`)
                     .setEmoji(emoji.nextPage)
-                    .setDisabled((historyData.size <= 25) ? (true) : (false))
+                    .setDisabled((userData.history.size <= 25) ? (true) : (false))
             )
 
         await interaction.reply({ embeds:[embed], components:[button], ephemeral: true });
