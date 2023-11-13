@@ -42,6 +42,12 @@ const commands = [
         .setDMPermission(false)
         .setDescription('Transfer money to another user'),
 
+
+    new SlashCommandBuilder()
+        .setName('history')
+        .setDMPermission(false)
+        .setDescription('Viewing the history of operations'),
+
     new SlashCommandBuilder()
         .setName('inventory')
         .setDMPermission(false)

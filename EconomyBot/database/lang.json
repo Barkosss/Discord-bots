@@ -105,6 +105,10 @@
                 "payMeToMe": "Вы не можете перевести самому себе",
                 "amountMoreUserBank": "Недостаточно средст для перевода"
             }
-        }   
+        },
+        "history": {
+            "title": "History operation",
+            "empty": "Operation history is empty"
+        }
     }
 }
