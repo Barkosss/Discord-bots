@@ -104,9 +104,17 @@
             "title": "Transfer",
             "field1": "Bank",
             "field2": "Recipient",
+            "modal": {
+                "title": "Transfer to",
+                "amount": {
+                    "label": "Amount",
+                    "placeholder": "Max amount: "
+                }
+            },
             "error": {
                 "payMeToMe": "You can't translate to yourself",
-                "amountMoreUserBank": "Not enough funds for transfer"
+                "amountMoreUserBank": "Not enough funds for transfer",
+                "isNotNumber": "A number is required"
             }
         },
         "history": {

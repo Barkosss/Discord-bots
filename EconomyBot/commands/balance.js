@@ -21,22 +21,23 @@ RU: Отображение текущего баланса у пользоват
 module.exports.run = async(client, interaction) => {
 
     try {
-        if (!db.check('account', { key: `${interaction.user.id}` })) { // Если пользователя нет в БазеДанных
-            db.edit('account', { key: `${interaction.user.id}`, value: {
+        const userData = db.read('account', { key: `${interaction.user.id}` });
+        const lang = db.read('lang', { key: `${(interaction.locale == 'ru') ? ('ru') : ('en')}` });
+        const targetMember = (interaction.options.getUser('member')) ?? (interaction.user);
+        if (!db.check('account', { key: `${targetMember.id}` })) { // Если пользователя нет в БазеДанных
+            db.edit('account', { key: `${targetMember.id}`, value: {
                 'userCash': 0,
                 'userBank': 0,
                 'createdAt': timestamp(Date.now())
             }, newline: true });
         }
-        const userData = db.read('account', { key: `${interaction.user.id}` });
-        const lang = db.read('lang', { key: `${(interaction.locale == 'ru') ? ('ru') : ('en')}` });
-        const targetMember = (interaction.options.getUser('member')) ?? (interaction.user);
+        const targetMemberData = db.read('account', { key: `${targetMember.id}` });
 
         if (targetMember.bot) return await interaction.reply({ content: `${lang.balance.error.isBot}`, ephemeral: true });
 
-        const cash = new Intl.NumberFormat("de").format(parseInt(userData.userCash));
-        const bank = new Intl.NumberFormat("de").format(parseInt(userData.userBank));
-        const total = new Intl.NumberFormat("de").format(userData.userCash + userData.userBank);
+        const cash = new Intl.NumberFormat("de").format(parseInt(targetMemberData.userCash));
+        const bank = new Intl.NumberFormat("de").format(parseInt(targetMemberData.userBank));
+        const total = new Intl.NumberFormat("de").format(targetMemberData.userCash + targetMemberData.userBank);
 
         const embed = new MessageEmbed()
         embed.setTitle(`${lang.balance.title} - ${targetMember.username}`)
@@ -64,7 +65,7 @@ module.exports.run = async(client, interaction) => {
                     .setCustomId(`withdraw`)
                     .setLabel(`${lang.balance.withdrawCash}`)
                     .setEmoji(`⬆️`)
-                    .setDisabled((userData.userBank <= 0) ? (true) : (false))
+                    .setDisabled((targetMemberData.userBank <= 0) ? (true) : (false))
                     
             ).addComponents( // Пополнение счёта
                 new MessageButton()
@@ -72,7 +73,7 @@ module.exports.run = async(client, interaction) => {
                     .setCustomId(`deposit`)
                     .setLabel(`${lang.balance.depositCash}`)
                     .setEmoji(`⬇️`)
-                    .setDisabled((userData.userCash <= 0) ? (true) : (false))
+                    .setDisabled((targetMemberData.userCash <= 0) ? (true) : (false))
             )
         }
 
