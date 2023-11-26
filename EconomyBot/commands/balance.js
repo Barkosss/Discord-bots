@@ -32,9 +32,11 @@ module.exports.run = async(client, interaction) => {
         const lang = db.read('lang', { key: `${(interaction.locale == 'ru') ? ('ru') : ('en')}` });
         const targetMember = (interaction.options.getUser('member')) ?? (interaction.user);
 
+        if (targetMember.bot) return await interaction.reply({ content: `${lang.balance.error.isBot}`, ephemeral: true });
+
         const cash = new Intl.NumberFormat("de").format(parseInt(userData.userCash));
         const bank = new Intl.NumberFormat("de").format(parseInt(userData.userBank));
-        const total = new Intl.NumberFormat("de").format(cash + bank);
+        const total = new Intl.NumberFormat("de").format(userData.userCash + userData.userBank);
 
         const embed = new MessageEmbed()
         embed.setTitle(`${lang.balance.title} - ${targetMember.username}`)

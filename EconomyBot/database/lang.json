@@ -64,7 +64,10 @@
             "total": "Total",
             "payCash": "Pay",
             "withdrawCash": "Withdraw",
-            "depositCash": "Deposit"
+            "depositCash": "Deposit",
+            "error": {
+                "isBot": "Choose a user, not a bot"
+            }
         },
         "withdraw": {
             "modal": {
@@ -98,12 +101,12 @@
             }
         },
         "pay": {
-            "title": "Перевод",
-            "field1": "Банковсйи счёт",
-            "field2": "Получатель",
+            "title": "Transfer",
+            "field1": "Bank",
+            "field2": "Recipient",
             "error": {
-                "payMeToMe": "Вы не можете перевести самому себе",
-                "amountMoreUserBank": "Недостаточно средст для перевода"
+                "payMeToMe": "You can't translate to yourself",
+                "amountMoreUserBank": "Not enough funds for transfer"
             }
         },
         "history": {
