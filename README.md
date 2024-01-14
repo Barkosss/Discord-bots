@@ -14,3 +14,7 @@
 > Настройка (Чуть позже, будут подробности)<br/>
 > Инвентарь<br/>
 > Магазин<br/>
+
+## [RudyBot](https://github.com/Barkosss/Discord-bots/tree/main/RudyBot):
+### Информация:
+> Многофункциональный бот. ...
