@@ -10694,3 +10694,5 @@ Ticket Manager/node_modules/ws/lib/websocket.js
 Ticket Manager/node_modules/ws/LICENSE
 Ticket Manager/node_modules/ws/package.json
 Ticket Manager/node_modules/ws/wrapper.mjs
+functionals/index.js
+functionals/deploy.js
