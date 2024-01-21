@@ -10696,3 +10696,18 @@ Ticket Manager/node_modules/ws/package.json
 Ticket Manager/node_modules/ws/wrapper.mjs
 functionals/index.js
 functionals/deploy.js
+functionals/node_modules/.package-lock.json
+functionals/node_modules/chalk/license
+functionals/node_modules/chalk/package.json
+functionals/node_modules/chalk/source/index.d.ts
+functionals/node_modules/chalk/source/index.js
+functionals/node_modules/chalk/source/utilities.js
+functionals/node_modules/chalk/source/vendor/ansi-styles/index.d.ts
+functionals/node_modules/chalk/source/vendor/ansi-styles/index.js
+functionals/node_modules/chalk/source/vendor/supports-color/browser.d.ts
+functionals/node_modules/chalk/source/vendor/supports-color/browser.js
+functionals/node_modules/chalk/source/vendor/supports-color/index.d.ts
+functionals/node_modules/chalk/source/vendor/supports-color/index.js
+functionals/node_modules/discord-timestamp/.upm/store.json
+functionals/node_modules/discord-timestamp/index.js
+functionals/node_modules/discord-timestamp/package.json
